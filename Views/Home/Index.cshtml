@@ -1,0 +1,124 @@
+﻿@{
+    ViewData["Title"] = "لوحة التحكم";
+}
+
+<div class="card" style="margin-bottom: 2rem; border-right: 4px solid var(--brand-blue);">
+    <h2>أهلاً بك، @ViewBag.UserName</h2>
+    <p class="text-muted">مرحباً بك في نظام إدارة الدراسة الذاتية. 
+        @if (ViewBag.UserRole == "admin")
+        {
+            <strong>أنت مدير النظام.</strong>
+        }
+        else if (ViewBag.UserRole == "standard_head")
+        {
+            <strong>أنت رئيس معيار.</strong>
+        }
+        else
+        {
+            <strong>أنت رئيس مقياس.</strong>
+        }
+    </p>
+</div>
+
+<div class="grid grid-cols-2">
+    @if (ViewBag.UserRole == "admin")
+    {
+        <div class="stat-card">
+            <div class="stat-label">المعايير والمقاييس</div>
+            <div class="stat-value">@Model["standards"] / @Model["metrics"]</div>
+            <a href="@Url.Action("Index", "Standards")" class="btn btn-primary btn-sm" style="margin-top: 1rem;">إدارة الهيكلية</a>
+        </div>
+        
+        <div class="stat-card">
+            <div class="stat-label">رؤساء المعايير والمقاييس</div>
+            <div class="stat-value">@Model["sh_count"] / @Model["mh_count"]</div>
+            <a href="@Url.Action("Index", "Users")" class="btn btn-primary btn-sm" style="margin-top: 1rem;">إدارة المستخدمين</a>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-label">حالة مراجعة الملفات (للإدارة)</div>
+            <div style="display:flex; justify-content:space-around; margin-top: 1rem;">
+                <div>
+                    <div class="stat-value" style="color:var(--warning);">@Model["pending_files"]</div>
+                    <div class="stat-label" style="font-size:0.9rem;">بانتظار الاعتماد النهائي</div>
+                </div>
+                <div>
+                    <div class="stat-value" style="color:var(--success);">@Model["approved_files"]</div>
+                    <div class="stat-label" style="font-size:0.9rem;">معتمدة نهائياً</div>
+                </div>
+            </div>
+            <a href="@Url.Action("Index", "Files")" class="btn btn-primary btn-sm" style="margin-top: 1rem;">مراجعة الملفات</a>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-label">التقارير والإحصائيات</div>
+            <p class="text-muted" style="margin-top: 1rem; margin-bottom: 1rem; font-size:0.9rem;">عرض مؤشرات الإنجاز التفصيلية للمقاييس والمعايير.</p>
+            <a href="@Url.Action("Index", "Reports")" class="btn btn-primary btn-sm">عرض التقارير</a>
+        </div>
+    }
+    else if (ViewBag.UserRole == "standard_head")
+    {
+        <div class="stat-card">
+            <div class="stat-label">معاييري والمقاييس التابعة لها</div>
+            <div class="stat-value">@Model["my_standards"] / @Model["my_metrics"]</div>
+            <a href="@Url.Action("MyStandards", "Standards")" class="btn btn-primary btn-sm" style="margin-top: 1.5rem;">إدارة معياري</a>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-label">ملفات بانتظار مراجعتي</div>
+            <div class="stat-value">@Model["pending_review"]</div>
+            <a href="@Url.Action("Index", "Files")" class="btn btn-primary btn-sm" style="margin-top: 1rem;">عرض الملفات</a>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-label">ملفات وافقت عليها</div>
+            <div class="stat-value">@Model["approved_by_me"]</div>
+            <a href="@Url.Action("Index", "Files")" class="btn btn-primary btn-sm" style="margin-top: 1rem;">عرض الملفات</a>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-label">إدارة المواد</div>
+            <p class="text-muted" style="margin-top: 1rem; margin-bottom: 1rem; font-size:0.9rem;">إدارة صلاحيات الوصول للمواد والمجلدات.</p>
+            <a href="@Url.Action("ManageMaterials", "Materials")" class="btn btn-primary btn-sm">إدارة المواد</a>
+        </div>
+    }
+    else
+    {
+        <div class="stat-card">
+            <div class="stat-label">مقاييسي</div>
+            <div class="stat-value">@Model["my_metrics"]</div>
+            <a href="@Url.Action("Index", "Materials")" class="btn btn-primary btn-sm" style="margin-top: 1.5rem;">عرض المجلدات</a>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-label">المجلدات المتاحة لي</div>
+            <div class="stat-value">@Model["my_folders"]</div>
+            <a href="@Url.Action("Index", "Materials")" class="btn btn-primary btn-sm" style="margin-top: 1rem;">عرض المجلدات</a>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-label">حالة ملفاتي</div>
+            <div style="display:flex; justify-content:space-around; margin-top: 1rem;">
+                <div>
+                    <div class="stat-value" style="color:var(--warning);">@Model["my_pending"]</div>
+                    <div class="stat-label" style="font-size:0.9rem;">بانتظار المراجعة</div>
+                </div>
+                <div>
+                    <div class="stat-value" style="color:var(--success);">@Model["my_approved"]</div>
+                    <div class="stat-label" style="font-size:0.9rem;">معتمدة</div>
+                </div>
+                <div>
+                    <div class="stat-value" style="color:var(--danger);">@Model["my_rejected"]</div>
+                    <div class="stat-label" style="font-size:0.9rem;">مرفوضة</div>
+                </div>
+            </div>
+            <a href="@Url.Action("Index", "Materials")" class="btn btn-primary btn-sm" style="margin-top: 1rem;">عرض الملفات</a>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-label">رفع ملفات جديدة</div>
+            <p class="text-muted" style="margin-top: 1rem; margin-bottom: 1rem; font-size:0.9rem;">رفع ملفات الدراسة الذاتية للمقاييس الخاصة بك.</p>
+            <a href="@Url.Action("Upload", "Files")" class="btn btn-primary btn-sm">رفع ملفات</a>
+        </div>
+    }
+</div>

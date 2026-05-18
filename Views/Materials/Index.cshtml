@@ -1,0 +1,21 @@
+@model IEnumerable<MMS.Models.File>
+
+@{
+    ViewData["Title"] = "ملفاتي";
+}
+
+<div class="card" style="margin-bottom: 2rem; border-right: 4px solid var(--brand-blue);">
+    <h2>المجلدات والمواد</h2>
+</div>
+
+<div class="grid grid-cols-2">
+    <div class="stat-card">
+        <div class="stat-label">رفع ملفات جديدة</div>
+        <a href="@Url.Action("Upload", "Files")" class="btn btn-primary btn-sm" style="margin-top: 1rem;">رفع ملفات</a>
+    </div>
+    
+    <div class="stat-card">
+        <div class="stat-label">ملفاتي</div>
+        <a href="@Url.Action("Index", "Files")" class="btn btn-primary btn-sm" style="margin-top: 1rem;">عرض الملفات</a>
+    </div>
+</div>

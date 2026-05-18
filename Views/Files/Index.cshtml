@@ -1,0 +1,61 @@
+@model IEnumerable<MMS.Models.File>
+
+@{
+    ViewData["Title"] = "الملفات";
+}
+
+<div class="card" style="margin-bottom: 2rem; border-right: 4px solid var(--brand-blue);">
+    <h2>مراجعة الملفات</h2>
+</div>
+
+<div class="card">
+    <table class="table table-hover">
+        <thead>
+            <tr style="background-color: var(--brand-blue-pale); border-bottom: 2px solid var(--brand-blue);">
+                <th style="text-align: right;">اسم الملف</th>
+                <th style="text-align: right;">الحالة</th>
+                <th style="text-align: center;">التاريخ</th>
+                <th style="text-align: center;">الإجراءات</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var file in Model ?? new List<File>())
+            {
+                <tr>
+                    <td style="text-align: right;">@file.OriginalName</td>
+                    <td style="text-align: right;">
+                        @{
+                            var statusColor = file.Status switch
+                            {
+                                "approved" => "success",
+                                "pending_sh" => "warning",
+                                "pending_admin" => "warning",
+                                "rejected" => "danger",
+                                "rejected_sh" => "danger",
+                                _ => "secondary"
+                            };
+                            var statusText = file.Status switch
+                            {
+                                "approved" => "معتمدة",
+                                "pending_sh" => "بانتظار رئيس المعيار",
+                                "pending_admin" => "بانتظار الإدارة",
+                                "rejected" => "مرفوضة",
+                                "rejected_sh" => "مرفوضة من رئيس المعيار",
+                                _ => "غير معروف"
+                            };
+                        }
+                        <span class="badge" style="background-color: var(--@statusColor);">@statusText</span>
+                    </td>
+                    <td style="text-align: center;">@file.CreatedAt.ToString("yyyy-MM-dd")</td>
+                    <td style="text-align: center;">
+                        <a href="@Url.Action("Review", new { id = file.Id })" class="btn btn-sm btn-info">عرض</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    @if ((Model?.Count() ?? 0) == 0)
+    {
+        <p class="text-muted" style="text-align: center; padding: 2rem;">لا توجد ملفات حالياً</p>
+    }
+</div>

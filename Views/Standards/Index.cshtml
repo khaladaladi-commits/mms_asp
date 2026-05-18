@@ -1,0 +1,43 @@
+@model IEnumerable<MMS.Models.Standard>
+
+@{
+    ViewData["Title"] = "المعايير والمقاييس";
+}
+
+<div class="card" style="margin-bottom: 2rem; border-right: 4px solid var(--brand-blue);">
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+        <h2>إدارة المعايير والمقاييس</h2>
+        <a href="@Url.Action("Create")" class="btn btn-primary">+ إضافة معيار جديد</a>
+    </div>
+</div>
+
+<div class="card">
+    <table class="table table-hover">
+        <thead>
+            <tr style="background-color: var(--brand-blue-pale); border-bottom: 2px solid var(--brand-blue);">
+                <th style="text-align: right;">المعيار</th>
+                <th style="text-align: center;">عدد المقاييس</th>
+                <th style="text-align: center;">التاريخ</th>
+                <th style="text-align: center;">الإجراءات</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var standard in Model ?? new List<Standard>())
+            {
+                <tr>
+                    <td style="text-align: right;">@standard.Name</td>
+                    <td style="text-align: center;">@standard.Metrics.Count</td>
+                    <td style="text-align: center;">@standard.CreatedAt.ToString("yyyy-MM-dd")</td>
+                    <td style="text-align: center;">
+                        <a href="@Url.Action("Edit", new { id = standard.Id })" class="btn btn-sm btn-info">تعديل</a>
+                        <a href="@Url.Action("Delete", new { id = standard.Id })" class="btn btn-sm btn-danger" onclick="return confirm('هل أنت متأكد؟')">حذف</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    @if ((Model?.Count() ?? 0) == 0)
+    {
+        <p class="text-muted" style="text-align: center; padding: 2rem;">لا توجد معايير حالياً</p>
+    }
+</div>

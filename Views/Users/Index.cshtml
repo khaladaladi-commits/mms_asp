@@ -1,0 +1,58 @@
+@model IEnumerable<MMS.Models.User>
+
+@{
+    ViewData["Title"] = "إدارة المستخدمين";
+}
+
+<div class="card" style="margin-bottom: 2rem; border-right: 4px solid var(--brand-blue);">
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+        <h2>المستخدمون</h2>
+        <a href="@Url.Action("Create")" class="btn btn-primary">+ إضافة مستخدم جديد</a>
+    </div>
+</div>
+
+<div class="card">
+    <table class="table table-hover">
+        <thead>
+            <tr style="background-color: var(--brand-blue-pale); border-bottom: 2px solid var(--brand-blue);">
+                <th style="text-align: right;">الاسم</th>
+                <th style="text-align: right;">اسم المستخدم</th>
+                <th style="text-align: right;">الدور</th>
+                <th style="text-align: center;">التاريخ</th>
+                <th style="text-align: center;">الإجراءات</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var user in Model ?? new List<User>())
+            {
+                <tr>
+                    <td style="text-align: right;">@user.Name</td>
+                    <td style="text-align: right;">@user.Username</td>
+                    <td style="text-align: right;">
+                        @if (user.Role == "admin")
+                        {
+                            <span class="badge" style="background-color: var(--danger);">مدير</span>
+                        }
+                        else if (user.Role == "standard_head")
+                        {
+                            <span class="badge" style="background-color: var(--info);">رئيس معيار</span>
+                        }
+                        else
+                        {
+                            <span class="badge" style="background-color: var(--success);">رئيس مقياس</span>
+                        }
+                    </td>
+                    <td style="text-align: center;">@user.CreatedAt.ToString("yyyy-MM-dd")</td>
+                    <td style="text-align: center;">
+                        <a href="@Url.Action("Edit", new { id = user.Id })" class="btn btn-sm btn-info">تعديل</a>
+                        <a href="@Url.Action("Delete", new { id = user.Id })" class="btn btn-sm btn-danger" onclick="return confirm('هل أنت متأكد؟')">حذف</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    @if ((Model?.Count() ?? 0) == 0)
+    {
+        <p class="text-muted" style="text-align: center; padding: 2rem;">لا يوجد مستخدمون حالياً</p>
+    }
+</div>

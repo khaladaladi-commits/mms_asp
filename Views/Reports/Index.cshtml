@@ -1,0 +1,27 @@
+@{
+    ViewData["Title"] = "التقارير والإحصائيات";
+}
+
+<div class="card" style="margin-bottom: 2rem; border-right: 4px solid var(--brand-blue);">
+    <h2>التقارير والإحصائيات</h2>
+</div>
+
+<div class="grid grid-cols-2">
+    <div class="stat-card">
+        <div class="stat-label">تقرير المعايير والمقاييس</div>
+        <p class="text-muted" style="margin-top: 1rem; margin-bottom: 1rem; font-size:0.9rem;">عرض إحصائيات المعايير والمقاييس.</p>
+        <a href="@Url.Action("StandardsReport")" class="btn btn-primary btn-sm">عرض التقرير</a>
+    </div>
+    
+    <div class="stat-card">
+        <div class="stat-label">تقرير المقاييس</div>
+        <p class="text-muted" style="margin-top: 1rem; margin-bottom: 1rem; font-size:0.9rem;">عرض إحصائيات المقاييس والملفات المرفوعة.</p>
+        <a href="@Url.Action("MetricsReport")" class="btn btn-primary btn-sm">عرض التقرير</a>
+    </div>
+    
+    <div class="stat-card">
+        <div class="stat-label">تقرير حالة الملفات</div>
+        <p class="text-muted" style="margin-top: 1rem; margin-bottom: 1rem; font-size:0.9rem;">عرض حالة جميع الملفات المرفوعة والمعتمدة.</p>
+        <a href="@Url.Action("FileStatusReport")" class="btn btn-primary btn-sm">عرض التقرير</a>
+    </div>
+</div>

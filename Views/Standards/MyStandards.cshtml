@@ -1,0 +1,28 @@
+@model IEnumerable<MMS.Models.Standard>
+
+@{
+    ViewData["Title"] = "معاييري";
+}
+
+<div class="card" style="margin-bottom: 2rem; border-right: 4px solid var(--brand-blue);">
+    <h2>معاييري والمقاييس التابعة</h2>
+</div>
+
+<div class="card">
+    <div class="grid grid-cols-1">
+        @foreach (var standard in Model ?? new List<Standard>())
+        {
+            <div class="stat-card">
+                <h3>@standard.Name</h3>
+                <p class="text-muted">عدد المقاييس: @standard.Metrics.Count</p>
+                <div style="margin-top: 1rem;">
+                    <a href="@Url.Action("View", new { id = standard.Id })" class="btn btn-primary btn-sm">عرض التفاصيل</a>
+                </div>
+            </div>
+        }
+    </div>
+    @if ((Model?.Count() ?? 0) == 0)
+    {
+        <p class="text-muted" style="text-align: center; padding: 2rem;">لا توجد معايير مسندة إليك حالياً</p>
+    }
+</div>
